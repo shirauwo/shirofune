@@ -102,7 +102,7 @@
   pointer-events: none; /* クリック判定をaタグに渡す */
 }
 
-/* クリックした時に「押し込まれる」感じ */
+/* クリック時動作、引き上げ */
 .floating-btn:active {
     transform: translateY(-20px);
 }
@@ -131,6 +131,7 @@
 
 <script>
 
+/*クリックタップ時にbgm開始*/
 let bgm = document.getElementById("bgm");
 let hasPlayed = false;
 
