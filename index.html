@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>白船城 - Shirafune Castle</title>
+<title>白船城 - Shirofune Castle</title>
 
 <style>
   html, body {
@@ -85,7 +85,7 @@
   .floating-btn {
   position: fixed;
   right: 0px;
-  bottom: 0px;
+  bottom: -10px;
   width: 250px;       /* ボタンの大きさ */
   height: 250px;
   cursor: pointer;
@@ -104,7 +104,7 @@
 
 /* クリックした時に「押し込まれる」感じ */
 .floating-btn:active {
-  transform: scale(0.9);
+    transform: translateY(-15px) scale(0.95);
 }
 
 
@@ -113,21 +113,37 @@
 
 <body>
 
+<audio id="bgm" src="20250811_bpm85.mp3" loop></audio>
+
 <canvas id="canvas"></canvas>
 
 <div class="content">
   <h1>白船城</h1>
-  <div class="subtitle">Shirafune Castle - Honmaru</div>
+  <div class="subtitle">Shirofune Castle - Honmaru</div>
 
   <nav>
     <a href="#">本丸日誌</a>
-    <a href="#">大広間</a>
-    <a href="#">縁側</a>
+    <a href="#">広間</a>
+    <a href="#">小説</a>
     <a href="#">執務室</a>
   </nav>
 </div>
 
 <script>
+
+let bgm = document.getElementById("bgm");
+let hasPlayed = false;
+
+function tryPlayMusic() {
+  if (!hasPlayed) {
+    bgm.play().catch(() => {});
+    hasPlayed = true;
+  }
+}
+
+document.addEventListener("touchstart", tryPlayMusic, { once: true });
+document.addEventListener("click", tryPlayMusic, { once: true });
+  
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = innerWidth;
