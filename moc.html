@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>白船城 - 開発報告</title>
+
+<style>
+  html, body {
+    margin: 0; padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #0a1224; /* 夜のネイビー */
+    font-family: "Noto Serif JP", serif;
+    color: #f0f4ff;
+  }
+
+  canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+  }
+
+  h1 {
+    font-size: 2.6rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #ffffff, #c0d8ff 40%, #eaf3ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* 本文エリア */
+  .journal-box {
+    width: min(800px, 90%);
+    height: 70vh;
+    overflow-y: auto;
+    padding: 25px 30px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.4);
+  }
+
+  .entry {
+    margin-bottom: 26px;
+    line-height: 1.8;
+    border-left: 3px solid rgba(200,220,255,0.4);
+    padding-left: 15px;
+  }
+
+  .entry .date {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+
+  .entry .text {
+    font-size: 1.05rem;
+  }
+
+  nav {
+    margin-top: 25px;
+  }
+
+  nav a {
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 25px;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #eaefff;
+    font-size: 0.9rem;
+    transition: 0.3s;
+  }
+
+  nav a:hover {
+    background: rgba(255,255,255,0.12);
+  }
+
+</style>
+</head>
+
+<body>
+
+<canvas id="canvas"></canvas>
+
+<div class="container">
+  <h1>開発報告</h1>
+
+  <div class="journal-box">
+    <div class="entry">
+      <div class="date">2025/11/14</div>
+      <div class="text">
+        indexページを作成しました。：シラウヲ
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="date">2025/11/14</div>
+      <div class="text">
+        githubで公開
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="date">文月 十二日</div>
+      <div class="text">
+
+      </div>
+    </div>
+  </div>
+
+  <nav>
+    <a href="#">戻る</a>
+  </nav>
+</div>
+
+<script>
+/* ===== 背景の花びら：白船城カラー ===== */
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+window.addEventListener("resize", () => {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+});
+
+class Petal {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * -canvas.height;
+    this.size = 10 + Math.random() * 8;
+    this.speedY = 0.5 + Math.random() * 1;
+    this.speedX = Math.random() * 0.4 - 0.2;
+    this.rotation = Math.random() * 360;
+    this.rotationSpeed = Math.random() * 1 - 0.5;
+    this.opacity = 0.4 + Math.random() * 0.3;
+  }
+  update() {
+    this.y += this.speedY;
+    this.x += this.speedX;
+    this.rotation += this.rotationSpeed;
+    if (this.y > canvas.height + this.size) this.reset();
+  }
+  draw() {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate((this.rotation * Math.PI) / 180);
+
+    const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size);
+    grad.addColorStop(0, `rgba(200,220,255,${this.opacity})`);
+    grad.addColorStop(1, `rgba(200,220,255,0)`);
+
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.quadraticCurveTo(this.size/2, -this.size/2, 0, -this.size);
+    ctx.quadraticCurveTo(-this.size/2, -this.size/2, 0, 0);
+    ctx.fill();
+
+    ctx.restore();
+  }
+}
+
+const petals = Array.from({ length: 35 }, () => new Petal());
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  petals.forEach((p) => { p.update(); p.draw(); });
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+</body>
+</html>
