@@ -107,6 +107,32 @@
     transform: translate(-5px,-20px);
 }
 
+/*各種リンクボタン用css*/
+
+.sns-footer {
+  position: fixed;
+  left: 20px;      /* 左下固定 */
+  bottom: 20px;
+  display: flex;   /* 横並び */
+  gap: 10px;       /* ボタン間隔 */
+  z-index: 9999;
+}
+
+
+.sns-footer a {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.sns-footer a:hover {
+  transform: translateY(5px);
+}
+
+.sns-icon {
+  width: 50px;
+  height: auto;
+  opacity: 0.9;
+}
 
 </style>
 </head>
@@ -209,6 +235,22 @@ animate();
   <a href="moc.html" class="floating-btn">
     <img src="報告書.png" alt="button">
   </a>
+
+  <a href="moc.html" class="floating-btn">
+    <img src="報告書.png" alt="button">
+  </a>
+
+  <footer class="sns-footer">
+  <a href="https://twitter.com/あなたのURL" target="_blank">
+    <img src="btn_x.png" alt="Twitter" class="sns-icon">
+  </a>
+  <a href="https://www.youtube.com/あなたのURL" target="_blank">
+    <img src="btn_youtube.png" alt="YouTube" class="sns-icon">
+  </a>
+  <a href="https://www.pixiv.net/users/あなたのID" target="_blank">
+    <img src="btn_Pixiv.png" alt="pixiv" class="sns-icon">
+  </a>
+</footer>
 
 </body>
 </html>
